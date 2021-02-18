@@ -1,0 +1,10 @@
+[package]
+name = "integration-suite-mariadb"
+authors = ["Kristin Barkardottir <kristin.barkardottir@netapp.com"]
+repository = "https://github.com/barkardk/integration_suite"
+version = "0.1.0"
+readme = "README.md"
+
+
+[dependencies]
+cargo-release = "0.13.10"
