@@ -30,7 +30,7 @@ build.linux.debug:
 build.linux:
 	@echo "Build binary for linux kernel in release mode"
 	@cargo release --dry-run
-	@cargo release --sign --upload-doc
+	@cargo release --sign
 	@TARGET_CC=x86_64-linux-musl-gcc cargo build --release --target=x86_64-unknown-linux-musl
 
 
