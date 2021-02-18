@@ -3,6 +3,8 @@ name = "mariadb"
 version = "0.1.0"
 authors = ["Kristin Barkardottir <kristin.barkardottir@netapp.com>"]
 edition = "2018"
+description = "Integration suite for various application e2e test on kubernets"
+license = "MIT-2"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
