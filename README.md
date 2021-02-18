@@ -1,37 +1,56 @@
-## Welcome to GitHub Pages
+# Integration suite
 
-You can use the [editor on GitHub](https://github.com/barkardk/integration_suite/edit/main/README.md) to maintain and preview the content for your website in Markdown files.
+Small set of applications designed to run in kubernetes integration tests or e2e test. 
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+## Mariadb
+ Run a set of table creation and a few simple queries to verify database response the following setups are supported
+ - Mariadb standalone
+ - Mariadb galera cluster
 
-### Markdown
+## Mysql 
+Run a set of table creation and a few simple queries to verify database response the following setups are supported
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+## Mongodb 
+Run a set of table creation and a few simple queries to verify database response the following setups are supported 
 
+## Postgres 
+Run a set of table creation and a few simple queries to verify database response the following setups are supported 
+the following options are supported
+- Plain database
+- Timescaledb addon 
+
+## Rabbitmq
 ```markdown
-Syntax highlighted code block
+# RabbitMQ
+RabbitMQ integration is a small test suite to test rabbitmq server installations.  
+It works by connecting to a rabbitmq server via a provided AMQP string, it will then create a queue , post a message and consume the message.   
+## Installation
 
-# Header 1
-## Header 2
-### Header 3
-
-- Bulleted
-- List
-
-1. Numbered
-2. List
-
-**Bold** and _Italic_ and `Code` text
-
-[Link](url) and ![Image](src)
+Build a test binary , compile a docker image and push to docker registry
+```bash
+#> make build
+```
+Deploy to kubernetes 
+```bash
+#> kubectl apply -f it/testdata
+```
+## Usage
+Run locally using docker compose
+```bash
+#> docker-compose up
 ```
 
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
+When deploying to kubernetes the rabbit mq client pod will run as a job, check the job logs for output  
+```bash
+#> kubectl logs -l app=rabbitmq-client
+```
 
-### Jekyll Themes
+## Parameters
+|   Parameter | Default   |
+|---|---|
+| RABBITMQ_AMQP_CONN_STR  | amqp://guest:guest@localhost:5672/  |
+| TAG  |  git-rev parse HEAD --short |
+| DOCKER_REGISTRY | ghcr.io/barkardk  |
 
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/barkardk/integration_suite/settings). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
+```
 
-### Support or Contact
-
-Having trouble with Pages? Check out our [documentation](https://docs.github.com/categories/github-pages-basics/) or [contact support](https://support.github.com/contact) and we’ll help you sort it out.
