@@ -1,4 +1,15 @@
-TAG := $(shell git rev-parse --short HEAD --dirty)
+CARGO_TARGET ?= $(shell rustup show |sed -n 's/^Default host: \(.*\)/\1/p')
+TARGET = target/$(CARGO_TARGET)/debug
+ifndef TAG
+	TAG = $(shell git describe --tags --always --dirty)
+endif
+
+ifndef CARGO_RELEASE
+	RELEASE = --release
+	TARGET = target/$(CARGO_TARGET)/release
+endif
+CARGO ?= cargo
+
 .DEFAULT_GOAL := help
 
 .PHONY: help
@@ -29,17 +40,16 @@ build.linux.debug:
 .PHONY: build.linux
 build.linux:
 	@echo "Build binary for linux kernel in release mode"
+	@echo "--- DRY-RUN -----"
 	@cargo release --dry-run
-	@cargo release --sign
 	@TARGET_CC=x86_64-linux-musl-gcc cargo build --release --target=x86_64-unknown-linux-musl
 
-
-build.docker:$(TAG)	## Build and push a docker container with binaries in release mode (takes a while)
+.PHONY: build.docker
+build.docker: 	## Build and push a docker container with binaries in release mode (takes a while)
 	@echo "Build and release a docker container in release mode"
-
 	@docker build -t "mariadb_test-$(TAG)" .
 	@docker tag mariadb_test-$(TAG) ghcr.io/barkardk/integration_suite/mariadb_test:$(TAG)
-    @docker push ghcr.io/barkardk/integration_suite/mariadb_test:$(TAG)
+	@docker push ghcr.io/barkardk/integration_suite/mariadb_test:$(TAG)
 
 cross.compile:		## Setup rust for cross compilation
 	@echo "Adding linker libraries"
@@ -47,6 +57,7 @@ cross.compile:		## Setup rust for cross compilation
 	@echo "Installing cross compiler"
 	brew install FiloSottile/musl-cross/musl-cross
 
-
-
-
+.PHONY: make.cargo.release
+make.cargo.release:
+	@echo "Upload crate to cargo.io - THE CRATES CANNOT BE DELETED ONLY YANKED - "
+	@cargo release --sign
