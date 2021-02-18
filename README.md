@@ -20,8 +20,6 @@ the following options are supported
 - Timescaledb addon 
 
 ## Rabbitmq
-```markdown
-# RabbitMQ
 RabbitMQ integration is a small test suite to test rabbitmq server installations.  
 It works by connecting to a rabbitmq server via a provided AMQP string, it will then create a queue , post a message and consume the message.   
 ## Installation
