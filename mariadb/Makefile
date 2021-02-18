@@ -1,4 +1,4 @@
-T := $(shell awk '/version/ {print $NF}' Cargo.toml |  sed 's/\"//g')
+TAG := $(shell git rev-parse --short HEAD --dirty)
 .DEFAULT_GOAL := help
 
 .PHONY: help
@@ -33,12 +33,12 @@ build.linux:
 	@TARGET_CC=x86_64-linux-musl-gcc cargo build --release --target=x86_64-unknown-linux-musl
 
 
-build.docker:	## Build and push a docker container with binaries in release mode (takes a while)
+build.docker:$(TAG)	## Build and push a docker container with binaries in release mode (takes a while)
 	@echo "Build and release a docker container in release mode"
 
-	@docker build -t "mariadb_test-$(T)" .
-	@docker tag mariadb_test-$(T) ghcr.io/barkardk/integration_suite/mariadb_test:$(T)
-    @docker push ghcr.io/barkardk/integration_suite/mariadb_test:$(tag:)
+	@docker build -t "mariadb_test-$(TAG)" .
+	@docker tag mariadb_test-$(TAG) ghcr.io/barkardk/integration_suite/mariadb_test:$(TAG)
+    @docker push ghcr.io/barkardk/integration_suite/mariadb_test:$(TAG)
 
 cross.compile:		## Setup rust for cross compilation
 	@echo "Adding linker libraries"
