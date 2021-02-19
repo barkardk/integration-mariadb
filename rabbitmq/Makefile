@@ -6,7 +6,7 @@ help:
 
 NON_VENDOR_PACKAGES=$(shell go list ./... | grep -v "vendor")
 ifndef TAG
-  TAG=$(shell git  rev-parse --short @) ## TAG parameter can be set via env
+  TAG=$(shell git  rev-parse --short @)
 endif
 DOCKER_REGISTRY=ghcr.io/barkardk
 fmt:
@@ -19,6 +19,8 @@ build: fmt vet build.linux build.docker.and.push ## Build a linux binary in rele
 start: docker.start ## Start docker-compose
 stop: docker.stop ## Stop docker-compose
 darwin: build.darwin ## Build a dev binary on mac os
+TAG: ## Set the env variable TAG to override the default git rev-parse
+
 
 .PHONY: docker.start
 docker.start:
