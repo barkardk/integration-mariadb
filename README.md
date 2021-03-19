@@ -1,5 +1,5 @@
 # Integration suite
-https://barkardk.github.io/integration_suite/  
+https://barkardk.github.io/integration-mariadb/  
 Small set of applications designed to run in kubernetes integration tests or e2e test. 
 
 ## Mariadb
