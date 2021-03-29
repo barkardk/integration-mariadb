@@ -27,6 +27,7 @@ func GetMariadbConfig() *MDB {
 		MariaDBClientPort:   MariaDBClientPort,
 	}
 }
+
 /*func createDatabase(name string) error {
 	return nil
 }*/
