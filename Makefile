@@ -8,17 +8,19 @@ help: ## Help
 	@grep -E '^[a-zA-Z\\._-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[32m%-30s\033[0m %s\n", $$1, $$2}'
 
 docker.restart: docker.stop docker.start ## restart docker-compose
-build: fmt lint dep imp build.linux ## Run a full build with linting , depencency testing and import
-release: docker-manifest.purge publish pi manifests ## Build linux release containers
+build: fmt lint build.linux ## Run a full build with linting ,
+release: fmt lint docker-manifest.purge publish pi manifests ## Build linux release containers
 pies: docker-manifest.purge pi manifests
-release.binary: build.linux  ## Build binaries for various linux architectures
+docker: build.linux ## Build a simple local docker container with a linux binary
+	@echo "-> @"
+	docker build -t mariadb-client -f Dockerfile.local .
 
 docker.start: ## Start docker-compose
+	@echo "-> @"
 	docker-compose up -d --remove-orphans;
 docker.stop: ## Stop docker-compose
+	@echo "-> @"
 	docker-compose stop;
-docker.build: ## Build mariadb-client docker container
-	docker build -t mariadb-client
 
 .PHONY: clean
 clean: ## Clean compiled binaries
@@ -86,7 +88,6 @@ manifests: ## Publish manifests for docker multiarch support
 
 
 # -- build development binary --
-.PHONY: build.darwin
 build.darwin:
 	@echo "-> $@"
 	mkdir -p target/darwin
@@ -108,20 +109,9 @@ lint:
 	@echo "-> $@"
 	@go get -u golang.org/x/lint/golint
 	@golint ./... | tee /dev/stderr
-	@go get -u golang.org/x/tools/go/analysis/cmd/vet
 	@go vet --all
 
-.PHONY: dep
-dep:
-	@echo "-> $@"
-	@go mod tidy
-	@go get -u github.com/golang/dep/cmd/dep
-	@dep init && dep ensure -vendor-only
 
-.PHONY: imp
-imp:
-	@echo "-> $@"
-	@goimport
 
 
 
