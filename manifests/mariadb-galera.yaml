@@ -174,8 +174,7 @@ spec:
           command:
             - bash
             - -ec
-            - |
-                exec /opt/bitnami/scripts/mariadb-galera/entrypoint.sh /opt/bitnami/scripts/mariadb-galera/run.sh
+            - exec /opt/bitnami/scripts/mariadb-galera/entrypoint.sh /opt/bitnami/scripts/mariadb-galera/run.sh
           env:
             - name: MY_POD_NAME
               valueFrom:
@@ -190,13 +189,13 @@ spec:
             - name: MARIADB_ROOT_USER
               value: "root"
             - name: MARIADB_ROOT_PASSWORD
-              value: "password"
+              value: "secret"
             - name: MARIADB_DATABASE
               value: "my_database"
             - name: MARIADB_GALERA_MARIABACKUP_USER
               value: mariabackup
             - name: MARIADB_GALERA_MARIABACKUP_PASSWORD
-              value: "password"
+              value: "secret"
             - name: MARIADB_ENABLE_LDAP
               value: "no"
             - name: MARIADB_ENABLE_TLS
