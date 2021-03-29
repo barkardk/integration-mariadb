@@ -41,7 +41,7 @@ func getDatabaseConnection(name string) (conn *sql.DB, err error) {
 	return
 }
 
-func (canineModel CanineModel) insertCanines(canines Canines) (int64, error) {
+func (canineModel CanineModel) insertCanines(canines *Canines) (int64, error) {
 	log.Debugf("Insert values %v, %v, %v, %v", canines.Breed, canines.IsHypoAllergenic, canines.LifeExpectancy, canines.Origin)
 	result, err := canineModel.Db.Exec("INSERT INTO CANINES(breed, isHypoAllergenic, lifeExpectancy, origin) values(?,?,?,?)", canines.Breed, canines.IsHypoAllergenic, canines.LifeExpectancy, canines.Origin)
 	if err != nil {
@@ -85,5 +85,38 @@ func main() {
 	MariaDBClientPort, _ = os.LookupEnv("MARIADB_CLIENT_PORT")
 
 	log.Debugf("%v, %v, %v, %v", MariaDBRootPassword, MariaDBRootUser, MariaDBHost, MariaDBClientPort)
+
+	db, err := getDatabaseConnection("dogsDB")
+	if err != nil {
+		log.Fatalf("Could not connect to database %v:", err)
+	} else {
+		canineModel := CanineModel{
+			Db: db,
+		}
+		_, err1 := canineModel.createTable("Canines")
+		if err1 != nil {
+			log.Error(err1)
+		}
+		canines := Canines{
+			Breed: "Schnauzer",
+			IsHypoAllergenic: true,
+			LifeExpectancy: 14,
+			Origin: "Germany",
+		}
+		rowsAffected, err2 := canineModel.insertCanines(&canines)
+		if err2 != nil {
+			log.Error(err2)
+		} else {
+			log.Info("RowsAffected:", rowsAffected)
+			log.Info("Canine Information")
+			log.Info("Id:", canines.Id)
+			log.Info("Breed", canines.Breed)
+			log.Info("IsHypoAllergenic", canines.IsHypoAllergenic)
+			log.Info("LifeExpectancy", canines.LifeExpectancy)
+			log.Info("Origin", canines.Origin)
+
+		}
+	}
+
 
 }
