@@ -2,9 +2,10 @@ package main
 
 import (
 	"database/sql"
+	"os"
+
 	_ "github.com/go-sql-driver/mysql"
 	log "github.com/sirupsen/logrus"
-	"os"
 )
 
 var (
