@@ -6,24 +6,25 @@ import (
 )
 
 const (
-	MariaDBRootUser="root"
-	MariaDBRootPassword="secret"
-	MariaDBHost="127.0.0.1"
-	MariaDBClientPort="3306"
+	MariaDBRootUser     = "root"
+	MariaDBRootPassword = "secret"
+	MariaDBHost         = "127.0.0.1"
+	MariaDBClientPort   = "3306"
 )
 
 type MDB struct {
-	MariaDBRootUser string
+	MariaDBRootUser     string
 	MariaDBRootPassword string
-	MariaDBHost string
-	MariaDBClientPort string
+	MariaDBHost         string
+	MariaDBClientPort   string
 }
+
 func GetMariadbConfig() *MDB {
-	return &MDB {
-		MariaDBRootUser: MariaDBRootUser,
+	return &MDB{
+		MariaDBRootUser:     MariaDBRootUser,
 		MariaDBRootPassword: MariaDBRootPassword,
-		MariaDBHost: MariaDBHost,
-		MariaDBClientPort: MariaDBClientPort,
+		MariaDBHost:         MariaDBHost,
+		MariaDBClientPort:   MariaDBClientPort,
 	}
 }
 func createDatabase(name string) error {
@@ -32,12 +33,11 @@ func createDatabase(name string) error {
 
 func main() {
 	m := MDB{
-		MariaDBRootUser: os.Getenv("MARIADB_ROOT_USER"),
+		MariaDBRootUser:     os.Getenv("MARIADB_ROOT_USER"),
 		MariaDBRootPassword: os.Getenv("MARIADB_ROOT_PASSWORD"),
-		MariaDBHost: os.Getenv("MARIADB_HOST"),
-		MariaDBClientPort: os.Getenv("MARIADB_CLIENT_PORT"),
-
+		MariaDBHost:         os.Getenv("MARIADB_HOST"),
+		MariaDBClientPort:   os.Getenv("MARIADB_CLIENT_PORT"),
 	}
 	cf := GetMariadbConfig()
-	fmt.Printf("hello\n %v %v", cf.MariaDBRootPassword ,m.MariaDBRootPassword)
+	fmt.Printf("hello\n %v %v", cf.MariaDBRootPassword, m.MariaDBRootPassword)
 }
