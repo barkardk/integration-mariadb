@@ -12,7 +12,8 @@ services:
     environment:
       - BITNAMI_DEBUG=false
       - MARIADB_GALERA_MARIABACKUP_PASSWORD=secret
-      - MARIADB_USER=root
+      - MARIADB_USER=maria
+      - MARIADB_ROOT_USER=root
       - MARIADB_PASSWORD=secret
       - MARIADB_ROOT_PASSWORD=secret
       - CLUSTER_NAME=integration-mariadb
@@ -30,7 +31,8 @@ services:
     environment:
       - BITNAMI_DEBUG=false
       - MARIADB_GALERA_MARIABACKUP_PASSWORD=secret
-      - MARIADB_USER=root
+      - MARIADB_USER=maria
+      - MARIADB_ROOT_USER=root
       - MARIADB_PASSWORD=secret
       - MARIADB_ROOT_PASSWORD=secret
       - CLUSTER_NAME=integration-mariadb
@@ -47,7 +49,8 @@ services:
     environment:
       - BITNAMI_DEBUG=false
       - MARIADB_GALERA_MARIABACKUP_PASSWORD=secret
-      - MARIADB_USER=root
+      - MARIADB_USER=maria
+      - MARIADB_ROOT_USER=root
       - MARIADB_PASSWORD=secret
       - MARIADB_ROOT_PASSWORD=secret
       - CLUSTER_NAME=integration-mariadb
